@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "אימות קוד איפוס";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Comunication_LTD</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body { background-color: #f8f9fa; }
+        .auth-card { max-width: 420px; width: 100%; }
+        #resetCode { font-family: monospace; }
+    </style>
+</head>
+<body>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="card auth-card shadow-sm p-4 bg-white rounded">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">הזנת קוד אימות</h2>
+                <p class="text-muted small">שלחנו קוד אימות (SHA-1) לכתובת האימייל שלך</p>
+            </div>
+
+            @if (ViewData["SuccessMessage"] is string successMessage)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="VerifyResetCode" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label for="resetCode" class="form-label text-secondary small fw-semibold">קוד אימות</label>
+                    <input type="text" class="form-control" id="resetCode" name="resetCode" maxlength="40" required placeholder="40-character SHA-1 token">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">אימות והמשך</button>
+            </form>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="ForgotPassword" class="text-decoration-none small fw-semibold">שליחה חוזרת של הקוד</a>
+                <a asp-action="Login" class="text-decoration-none small text-muted">חזרה להתחברות</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

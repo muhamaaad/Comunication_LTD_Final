@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "התחברות";
+    
+}
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Comunication_LTD</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body { background-color: #f8f9fa; }
+        .auth-card { max-width: 400px; width: 100%; }
+    </style>
+</head>
+<body>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="card auth-card shadow-sm p-4 bg-white rounded">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">ברוכים השבים</h2>
+                <p class="text-muted small">הזן את פרטי ההתחברות שלך</p>
+            </div>
+
+            @if (ViewData["SuccessMessage"] is string successMessage)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <form method="post" asp-controller="Account" asp-action="Login">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label for="email" class="form-label text-secondary small fw-semibold">כתובת אימייל</label>
+                    <input type="email" class="form-control" id="email" name="email" required placeholder="name@example.com">
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="password" class="form-label text-secondary small fw-semibold mb-0">סיסמה</label>
+                        <a asp-action="ForgotPassword" class="text-decoration-none small">שכחת סיסמה?</a>
+                    </div>
+                    <input type="password" class="form-control mt-1" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">התחבר</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small mb-0">אין לך חשבון? <a asp-action="Register" class="text-decoration-none fw-semibold">הירשם עכשיו</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

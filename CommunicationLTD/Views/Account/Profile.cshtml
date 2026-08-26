@@ -1,0 +1,55 @@
+@model CommunicationLTD.Models.Customer?
+@{
+    ViewData["Title"] = "פרטי לקוח";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">פרטי לקוח</h2>
+
+    @if (ViewData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success">@successMessage</div>
+    }
+
+    @if (Model is null)
+    {
+        <div class="alert alert-warning">
+            לא נמצא פרופיל לקוח המקושר לחשבון זה.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm" style="max-width: 480px;">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">שם מלא</dt>
+                    <dd class="col-sm-8">@Model.FullName</dd>
+
+                    <dt class="col-sm-4">אימייל</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+
+                    <dt class="col-sm-4">טלפון</dt>
+                    <dd class="col-sm-8">@Model.Phone</dd>
+
+                    <dt class="col-sm-4">סקטור</dt>
+                    <dd class="col-sm-8">@(Model.Sector?.Name ?? "-")</dd>
+
+                    <dt class="col-sm-4">חבילת גלישה</dt>
+                    <dd class="col-sm-8">@(Model.InternetPackage?.Name ?? "-")</dd>
+                </dl>
+            </div>
+        </div>
+    }
+
+    <div class="mt-4 d-flex gap-2">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-controller="System" asp-action="Index" class="btn btn-outline-success">הוספת לקוח</a>
+        }
+        <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-outline-primary">שינוי סיסמה</a>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-danger">התנתק</button>
+        </form>
+    </div>
+</div>

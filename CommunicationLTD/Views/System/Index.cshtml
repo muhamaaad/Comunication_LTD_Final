@@ -1,0 +1,79 @@
+@using CommunicationLTD.Models
+@{
+    ViewData["Title"] = "מסך מערכת";
+    var sectors = ViewData["Sectors"] as List<Sector> ?? new List<Sector>();
+    var packages = ViewData["Packages"] as List<InternetPackage> ?? new List<InternetPackage>();
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">הוספת לקוח חדש</h2>
+
+    @if (ViewData["AddedCustomerName"] is string addedName)
+    {
+        <div class="alert alert-success">
+            הלקוח <strong>@addedName</strong> נוסף בהצלחה.
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
+        </div>
+    }
+
+    <div class="card shadow-sm" style="max-width: 520px;">
+        <div class="card-body">
+            <form asp-controller="System" asp-action="Index" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">שם מלא</label>
+                    <input name="fullName" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">אימייל</label>
+                    <input name="email" type="email" class="form-control" required />
+                </div>
+
+                   <div class="mb-3">
+                    <label class="form-label">סיסמא</label>
+                    <input name="password" type="password" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">טלפון</label>
+                    <input name="phone" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">סקטור</label>
+                    <select name="sectorId" class="form-select" required>
+                        <option value="">בחר סקטור</option>
+                        @foreach (var sector in sectors)
+                        {
+                            <option value="@sector.Id">@sector.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">חבילת גלישה</label>
+                    <select name="packageId" class="form-select" required>
+                        <option value="">בחר חבילה</option>
+                        @foreach (var package in packages)
+                        {
+                            <option value="@package.Id">@package.Name (@package.SpeedMbps Mbps)</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">הוספת לקוח</button>
+            </form>
+        </div>
+    </div>
+</div>

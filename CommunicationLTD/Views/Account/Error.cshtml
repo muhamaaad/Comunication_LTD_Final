@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "שגיאה";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Comunication_LTD</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0F2847, #1A3A52); color: white; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .card { background: white; color: #0F2847; padding: 2rem; border-radius: 12px; width: min(100%, 480px); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+        a { color: #00A8CC; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>קישור האישור אינו תקין</h2>
+        <p>הקישור לא תקין או פג תוקף. אנא נסה להירשם שוב.</p>
+        <p><a asp-action="Register">חזור להרשמה</a></p>
+    </div>
+</body>
+</html>
