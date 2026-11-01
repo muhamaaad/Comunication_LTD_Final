@@ -537,6 +537,7 @@ This project is intended for academic use to demonstrate:
 - SQL Injection vulnerabilities and mitigation
 - Stored XSS vulnerabilities and mitigation
 - Secure software architecture
+[![Watch the video](https://youtube.com)](https://www.youtube.com/watch?v=XVDvR0wfCdM).
 - Layered application design
 - Repository and Service patterns
 
